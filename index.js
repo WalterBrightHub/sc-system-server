@@ -12,7 +12,6 @@ app.use(bodyParser({
  app.use(require('./router/api/init').routes())  //初始化管理员账户
 
 
- const port=3488
-app.listen(port)
+app.listen(config.port)
 
-console.log(`listening on port ${port}`)
+console.log(`listening on port ${config.port}`)
