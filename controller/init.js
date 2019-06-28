@@ -32,7 +32,7 @@ module.exports.postInit=async (ctx,next)=>{
       }
     }
     else{
-      Model.insertAdmin(name,md5(password))
+      Model.insertAdministrator(name,md5(password))
       ctx.body={
         code:0,
         msg:'初始化成功！'
