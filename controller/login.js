@@ -10,7 +10,7 @@ module.exports.getLogin= async (ctx, next) => {
       const result=await Model.selectAdministrator(number,md5(password))
       const login=result.recordset.length===1
       if(login){
-        const administrator_id=result.recordset[0]
+        const {administrator_id}=result.recordset[0]
         ctx.body={
           code:0,
           msg:'login success',
@@ -31,13 +31,13 @@ module.exports.getLogin= async (ctx, next) => {
       const result=await Model.selectCollegeManager(number,md5(password))
       const login=result.recordset.length===1
       if(login){
-        const administrator_id=result.recordset[0]
+        const {college_manager_id}=result.recordset[0]
         ctx.body={
           code:0,
           msg:'login success',
           token:getToken({
-            role:'administrator',
-            administrator_id
+            role:'college_manager',
+            college_manager_id
           })
         }
       }

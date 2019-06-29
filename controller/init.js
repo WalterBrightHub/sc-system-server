@@ -2,7 +2,7 @@ const md5=require('md5')
 const Model=require('../lib/mssql')
 
 module.exports.getInit=async(ctx,next)=>{
-  const result=await Model.query('select * from chendr21_Administrator;')
+  const result=await Model.query('select * from shensm21_Administrator;')
   const admins=result.recordset
   console.log(admins.length)
   const initialized=admins.length>0
@@ -13,7 +13,7 @@ module.exports.getInit=async(ctx,next)=>{
 }
 
 module.exports.postInit=async (ctx,next)=>{
-  const result=await Model.query('select * from chendr21_Administrator;')
+  const result=await Model.query('select * from shensm21_Administrator;')
   const admins=result.recordset
   console.log(admins.length)
   const initialized=admins.length>0

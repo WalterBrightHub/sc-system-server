@@ -27,6 +27,9 @@ app.use(jwtKoa({ secret: config.secret }).unless({
  app.use(require('./router/api/init').routes())  //初始化管理员账户
  app.use(require('./router/api/login').routes()) //用户登录
  app.use(require('./router/api/user').routes()) //用户维护
+ app.use(require('./router/api/college').routes()) //学院维护
+ app.use(require('./router/api/major').routes()) //专业维护
+ app.use(require('./router/api/class').routes()) //班级维护
 
 
 app.listen(config.port)
