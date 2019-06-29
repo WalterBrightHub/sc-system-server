@@ -24,15 +24,15 @@ module.exports.postInit=async (ctx,next)=>{
     }
   }
   else{
-    const {name,password}=ctx.request.body
-    if(!name || !password){
+    const {number,password,name}=ctx.request.body
+    if(!number || !password || !name){
       ctx.body={
         code:2,
-        msg:'缺少用户名或密码'
+        msg:'缺少工号或密码'
       }
     }
     else{
-      Model.insertAdministrator(name,md5(password))
+      Model.insertAdministrator(number,name,md5(password))
       ctx.body={
         code:0,
         msg:'初始化成功！'

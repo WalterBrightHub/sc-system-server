@@ -4,10 +4,10 @@ const Model=require('../lib/mssql')
 
 /* GET /api/login 登录 */
 module.exports.getLogin= async (ctx, next) => {
-  const {name,password,role}=ctx.request.body
-  if(name&&password&&role){
+  const {number,password,role}=ctx.request.body
+  if(number&&password&&role){
     if(role==='administrator'){
-      const result=await Model.selectAdministrator(name,md5(password))
+      const result=await Model.selectAdministrator(number,md5(password))
       const login=result.recordset.length===1
       if(login){
         const administrator_id=result.recordset[0]
@@ -23,12 +23,30 @@ module.exports.getLogin= async (ctx, next) => {
       else{
         ctx.body={
           code:3,
-          msg:'wrong name or password'
+          msg:'wrong number or password'
         }
       }
     }
     else if(role==='college_manager'){
-
+      const result=await Model.selectCollegeManager(number,md5(password))
+      const login=result.recordset.length===1
+      if(login){
+        const administrator_id=result.recordset[0]
+        ctx.body={
+          code:0,
+          msg:'login success',
+          token:getToken({
+            role:'administrator',
+            administrator_id
+          })
+        }
+      }
+      else{
+        ctx.body={
+          code:3,
+          msg:'wrong number or password'
+        }
+      }
     }
     else if(role==='teacher'){
 

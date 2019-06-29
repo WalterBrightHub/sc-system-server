@@ -26,6 +26,7 @@ app.use(jwtKoa({ secret: config.secret }).unless({
 //  路由
  app.use(require('./router/api/init').routes())  //初始化管理员账户
  app.use(require('./router/api/login').routes()) //用户登录
+ app.use(require('./router/api/user').routes()) //用户维护
 
 
 app.listen(config.port)
