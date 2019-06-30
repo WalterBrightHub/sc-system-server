@@ -3,38 +3,38 @@ const md5=require('md5')
 const {getJWTPayload,getToken}=require('../../lib/jwt')
 
 
-module.exports.getAdministrator=async (ctx,next)=>{
+module.exports.getCollegeManager=async (ctx,next)=>{
   const payload=getJWTPayload(ctx.headers.authorization)
   console.log(payload)
   if(payload && payload.role==='administrator'){
-    const result=await model.selectAdministratorAll()
-    const administrators=result.recordset
+    const result=await model.seleceCollegeManagerAll()
+    const collegeManagers=result.recordset
     ctx.body={
       code:0,
-      administrators
+      collegeManagers
     }
   }
   else{
     ctx.body={
-      code:0401,
+      code:401,
       msg:'access denied'
     }
   }
 }
 
-module.exports.getAdministratorLogin=async (ctx,next)=>{
+module.exports.getCollegeManagerLogin=async (ctx,next)=>{
   const {number,password}=ctx.request.body
-  if(number&&password){
-    const result=await model.checkAdministrator(number,md5(password))
+  if(number && password){
+    const result=await model.checkCollegeManager(number,md5(password))
     const login=result.recordset.length===1
     if(login){
-      const {administrator_id}=result.recordset[0]
+      const {callege_manager_id}=result.recordset[0]
       ctx.body={
         code:0,
         msg:'login success',
         token:getToken({
-          role:['administrator'],
-          administrator_id
+          role:'college_manager',
+          callege_manager_id
         })
       }
     }
@@ -53,17 +53,16 @@ module.exports.getAdministratorLogin=async (ctx,next)=>{
   }
 }
 
-const {isLimited}=require('../../util/role')
 
-module.exports.postAdministrator=async (ctx,next)=>{
+module.exports.postCollegeManager=async (ctx,next)=>{
   const payload=getJWTPayload(ctx.headers.authorization)
-  console.log(payload.role)
-  if(payload && isLimited(payload.role,['administrator'])){
-    const {number,name,password}=ctx.request.body
-    if(number && name && password){
-      const exist=await model.selectAdministratorByNumber(number)
+  console.log(payload)
+  if(payload &&payload.role==='administrator'){
+    const {number,name,password,college_id}=ctx.request.body
+    if(number && name && password && college_id){
+      const exist=await model.selectCollegeManagerByNumber(number)
       if(exist.recordset.length===0){
-        const result=await model.insertAdministrator(number,name,md5(password))
+        const result=await model.insertCollegeManager(number,name,md5(password),college_id)
         ctx.body={
           code:0,
           msg:'insert'
@@ -72,7 +71,7 @@ module.exports.postAdministrator=async (ctx,next)=>{
       else{
         ctx.body={
           code:7,
-          msg:`administrator ${number} already exists`
+          msg:`college manager ${number} already exists`
         }
       }
     }

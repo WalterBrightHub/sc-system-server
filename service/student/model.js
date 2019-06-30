@@ -9,9 +9,9 @@ module.exports.selectStudentByNumber=async number=>{
   return query_safe(query_sql,{number})
 }
 
-module.exports.insertStudent=async (name,number,password,class_id)=>{
-  const query_sql='insert into shensm21_Student(student_name,student_number,student_password,class_id) values(@name,@number,@password,@class_id)'
-  return query_safe(query_sql,{name,number,password,class_id})
+module.exports.insertStudent=async (name,number,password,class_id,sex,birth,birth_place,tel)=>{
+  const query_sql='insert into shensm21_Student(student_name,student_number,student_password,class_id,student_sex,student_birth,student_birth_place,student_tel) values(@name,@number,@password,@class_id,@sex,@birth,@birth_place,@tel)'
+  return query_safe(query_sql,{name,number,password,class_id,sex,birth,birth_place,tel})
 }
 
 module.exports.checkStudent=async (number,password)=>{

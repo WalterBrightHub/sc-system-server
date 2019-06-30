@@ -26,12 +26,14 @@ app.use(jwtKoa({ secret: config.secret }).unless({
 }));
 
 //  路由
- app.use(require('./service/init/router').routes())    //初始化管理员账户
- app.use(require('./service/administrator/router').routes()) //管理员
- app.use(require('./service/college/router').routes()) //学院维护
- app.use(require('./service/major/router').routes())   //专业维护
- app.use(require('./service/class/router').routes())   //班级维护
- app.use(require('./service/student/router').routes())   //学生维护
+ app.use(require('./service/init/router').routes())              //初始化管理员账户
+ app.use(require('./service/administrator/router').routes())     //管理员
+ app.use(require('./service/college/router').routes())           //学院维护
+ app.use(require('./service/major/router').routes())             //专业维护
+ app.use(require('./service/class/router').routes())             //班级维护
+ app.use(require('./service/student/router').routes())           //学生维护
+ app.use(require('./service/college_manager/router').routes())   //院办维护
+ app.use(require('./service/teacher/router').routes())           //教师维护
 
 
 app.listen(config.port)
