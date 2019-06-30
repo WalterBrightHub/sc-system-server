@@ -1,8 +1,8 @@
-const Model=require('../lib/mssql')
-const {getJWTPayload}=require('../lib/jwt')
+const model=require('./model')
+const {getJWTPayload}=require('../../lib/jwt')
 
 module.exports.getCollege=async (ctx,next)=>{
-  const result=await Model.selectCollegeAll()
+  const result=await model.selectCollegeAll()
   ctx.body={
     code:0,
     colleges:result.recordset
@@ -12,10 +12,10 @@ module.exports.getCollege=async (ctx,next)=>{
 module.exports.postCollege=async (ctx,next)=>{
   const payload=getJWTPayload(ctx.headers.authorization)
   console.log(payload)
-  if(payload&&payload.role==='administrator'){
+  if(payload && payload.role==='administrator'){
     const {name}=ctx.request.body
     if(name){
-      const exist=await Model.selectCollege(name)
+      const exist=await model.selectCollege(name)
       //console.log(exist)
       if(exist.recordset.length>0){
         ctx.body={
@@ -24,7 +24,7 @@ module.exports.postCollege=async (ctx,next)=>{
         }
       }
       else{
-        const result=await Model.insertCollege(name)
+        const result=await model.insertCollege(name)
         // console.log(result)
         ctx.body={
           code:0,
