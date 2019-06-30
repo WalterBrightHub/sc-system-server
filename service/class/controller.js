@@ -9,10 +9,12 @@ module.exports.getClass=async (ctx,next)=>{
   }
 }
 
+const {isLimited}=require('../../util/role')
+
 module.exports.postClass=async (ctx,next)=>{
   const payload=getJWTPayload(ctx.headers.authorization)
   console.log(payload)
-  if(payload&& payload.role==='administrator'){
+  if(isLimited(payload.role,['administrator'])){
     const {name,entry_year,major_id}=ctx.request.body
     if(name&&entry_year&&major_id){
       console.log('exist')
@@ -34,14 +36,14 @@ module.exports.postClass=async (ctx,next)=>{
     }
     else{
       ctx.body={
-        code:0407,
+        code:407,
         msg:'need params'
       }
     }
   }
   else{
     ctx.body={
-      code:0401,
+      code:401,
       msg:'access denied'
     }
   }

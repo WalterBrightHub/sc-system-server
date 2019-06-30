@@ -9,10 +9,12 @@ module.exports.getCollege=async (ctx,next)=>{
   }
 }
 
+const {isLimited}=require('../../util/role')
+
 module.exports.postCollege=async (ctx,next)=>{
   const payload=getJWTPayload(ctx.headers.authorization)
   console.log(payload)
-  if(payload && payload.role==='administrator'){
+  if(isLimited(payload.role,['administrator'])){
     const {name}=ctx.request.body
     if(name){
       const exist=await model.selectCollege(name)

@@ -34,6 +34,7 @@ app.use(jwtKoa({ secret: config.secret }).unless({
  app.use(require('./service/student/router').routes())           //学生维护
  app.use(require('./service/college_manager/router').routes())   //院办维护
  app.use(require('./service/teacher/router').routes())           //教师维护
+ app.use(require('./service/course/router').routes())            //课程维护
 
 
 app.listen(config.port)

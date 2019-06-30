@@ -53,11 +53,12 @@ module.exports.getCollegeManagerLogin=async (ctx,next)=>{
   }
 }
 
+const {isLimited}=require('../../util/role')
 
 module.exports.postCollegeManager=async (ctx,next)=>{
   const payload=getJWTPayload(ctx.headers.authorization)
   console.log(payload)
-  if(payload &&payload.role==='administrator'){
+  if(isLimited(payload.role,['administrator'])){
     const {number,name,password,college_id}=ctx.request.body
     if(number && name && password && college_id){
       const exist=await model.selectCollegeManagerByNumber(number)

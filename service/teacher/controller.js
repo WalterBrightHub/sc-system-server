@@ -11,10 +11,12 @@ module.exports.getTeacher=async (ctx,next)=>{
   }
 }
 
+const {isLimited}=require('../../util/role')
+
 module.exports.postTeacher=async (ctx,next)=>{
   const payload=getJWTPayload(ctx.headers.authorization)
   console.log(payload)
-  if(payload.role!=='administrator'){
+  if(!isLimited(payload.role,['administrator'])){
     ctx.body={
       code:0401,
       msg:'access denied'

@@ -9,10 +9,12 @@ module.exports.getMajor=async (ctx,next)=>{
   }
 }
 
+const {isLimited}=require('../../util/role')
+
 module.exports.postMajor=async (ctx,next)=>{
   const payload=getJWTPayload(ctx.headers.authorization)
   console.log(payload)
-  if(payload.role==='administrator'){
+  if(isLimited(payload.role,['administrator'])){
     const {name,college_id}=ctx.request.body
     if(name&& college_id){
       const exist=await model.selectMajorByCollege(name,college_id)
