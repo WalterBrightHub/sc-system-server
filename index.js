@@ -18,8 +18,10 @@ app.use(jwtKoa({ secret: config.secret }).unless({
   // 设置login、register接口，可以不需要认证访问
   path: [
     /^\/api\/init/,
-      /^\/api\/login/,
-      /^((?!\/api).)*$/   // 设置除了私有接口外的其它资源，可以不需要认证访问
+    /^\/api\/administrator\/login/,
+    /^\/api\/student\/login/,
+    /^\/api\/college_manager\/login/,
+    /^((?!\/api).)*$/   // 设置除了私有接口外的其它资源，可以不需要认证访问
   ]
 }));
 
@@ -28,8 +30,8 @@ app.use(jwtKoa({ secret: config.secret }).unless({
  app.use(require('./service/administrator/router').routes()) //管理员
  app.use(require('./service/college/router').routes()) //学院维护
  app.use(require('./service/major/router').routes())   //专业维护
- app.use(require('./router/api/class').routes())   //班级维护
- app.use(require('./router/api/stduent').routes())   //学生维护
+ app.use(require('./service/class/router').routes())   //班级维护
+ app.use(require('./service/student/router').routes())   //学生维护
 
 
 app.listen(config.port)

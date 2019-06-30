@@ -1,4 +1,5 @@
 const {query,query_safe}=require('../../lib/mssql')
+
 module.exports.selectMajorAll=async ()=>{
   return query('select * from shensm21_Major')
 }

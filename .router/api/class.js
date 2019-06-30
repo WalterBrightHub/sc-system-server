@@ -1,5 +1,5 @@
 const router=require('koa-router')()
-const controller=require('../../controller/class.js')
+const controller=require('../../.controller/class.js')
 
 router.get('/api/class',controller.getClass)
 

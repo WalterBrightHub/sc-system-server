@@ -1,5 +1,5 @@
 const router=require('koa-router')()
-const controller=require('../../controller/administrator')
+const controller=require('../../.controller/administrator')
 
 router.get('/api/administrator',controller.getStudent)
 

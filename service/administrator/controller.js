@@ -62,7 +62,7 @@ module.exports.postAdministrator=async (ctx,next)=>{
     if(number && name && password){
       const exist=await model.selectAdministratorByNumber(number)
       if(exist.recordset.length===0){
-        const result=await model.insertAdministrator(number,name,password)
+        const result=await model.insertAdministrator(number,name,md5(password))
         ctx.body={
           code:0,
           msg:'insert'
