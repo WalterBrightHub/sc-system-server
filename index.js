@@ -20,7 +20,8 @@ app.use(jwtKoa({ secret: config.secret }).unless({
     /^\/api\/init/,
     /^\/api\/administrator\/login/,
     /^\/api\/student\/login/,
-    /^\/api\/college_manager\/login/,
+    /^\/api\/student\/login/,
+    /^\/api\/teacher\/login/,
     /^((?!\/api).)*$/   // 设置除了私有接口外的其它资源，可以不需要认证访问
   ]
 }));

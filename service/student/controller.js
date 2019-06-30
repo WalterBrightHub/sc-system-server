@@ -55,13 +55,13 @@ module.exports.getStudentLogin=async (ctx,next)=>{
     const result=await model.checkStudent(number,md5(password))
     const login=result.recordset.length===1
     if(login){
-      const {student_id}=result.recordset[0]
+      const {id}=result.recordset[0]
       ctx.body={
         code:0,
         msg:'login success',
         token:getToken({
           role:['student'],
-          student_id
+          id
         })
       }
     }

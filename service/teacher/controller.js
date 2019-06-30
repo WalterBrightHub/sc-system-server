@@ -55,13 +55,13 @@ module.exports.getTeacherLogin=async (ctx,next)=>{
     const result=await model.checkTeacher(number,md5(password))
     const login=result.recordset.length===1
     if(login){
-      const {teacher_id}=result.recordset[0]
+      const {id}=result.recordset[0]
       ctx.body={
         code:0,
         msg:'login success',
         token:getToken({
           role:['teacher'],
-          teacher_id
+          id
         })
       }
     }

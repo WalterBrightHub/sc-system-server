@@ -2,11 +2,12 @@ const model=require('./model')
 const md5=require('md5')
 const {getJWTPayload,getToken}=require('../../lib/jwt')
 
+const {isLimited}=require('../../util/role')
 
 module.exports.getAdministrator=async (ctx,next)=>{
   const payload=getJWTPayload(ctx.headers.authorization)
   console.log(payload)
-  if(payload && payload.role==='administrator'){
+  if(payload && isLimited(payload.role,['administrator'])){
     const result=await model.selectAdministratorAll()
     const administrators=result.recordset
     ctx.body={
@@ -28,13 +29,13 @@ module.exports.getAdministratorLogin=async (ctx,next)=>{
     const result=await model.checkAdministrator(number,md5(password))
     const login=result.recordset.length===1
     if(login){
-      const {administrator_id}=result.recordset[0]
+      const {id}=result.recordset[0]
       ctx.body={
         code:0,
         msg:'login success',
         token:getToken({
           role:['administrator'],
-          administrator_id
+          id
         })
       }
     }
@@ -53,11 +54,10 @@ module.exports.getAdministratorLogin=async (ctx,next)=>{
   }
 }
 
-const {isLimited}=require('../../util/role')
 
 module.exports.postAdministrator=async (ctx,next)=>{
   const payload=getJWTPayload(ctx.headers.authorization)
-  console.log(payload.role)
+  console.log(payload)
   if(payload && isLimited(payload.role,['administrator'])){
     const {number,name,password}=ctx.request.body
     if(number && name && password){
@@ -91,3 +91,4 @@ module.exports.postAdministrator=async (ctx,next)=>{
   }
 
 }
+

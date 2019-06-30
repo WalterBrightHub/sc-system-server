@@ -5,11 +5,11 @@ module.exports.selectMajorAll=async ()=>{
 }
 
 module.exports.selectMajorByCollege=async (name,college_id)=>{
-  const query_sql='select * from shensm21_Major where major_name=@name and college_id=@college_id'
+  const query_sql='select * from shensm21_Major where ssm21_major_name=@name and ssm21_college_id=@college_id'
   return query_safe(query_sql,{name,college_id})
 }
 
 module.exports.insertMajor=async (name,college_id)=>{
-  const query_sql='insert into shensm21_Major(major_name,college_id) values(@name,@college_id)'
+  const query_sql='insert into shensm21_Major(ssm21_major_name,ssm21_college_id) values(@name,@college_id)'
   return query_safe(query_sql,{name,college_id})
 }

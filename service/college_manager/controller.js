@@ -2,11 +2,12 @@ const model=require('./model')
 const md5=require('md5')
 const {getJWTPayload,getToken}=require('../../lib/jwt')
 
+const {isLimited}=require('../../util/role')
 
 module.exports.getCollegeManager=async (ctx,next)=>{
   const payload=getJWTPayload(ctx.headers.authorization)
   console.log(payload)
-  if(payload && payload.role==='administrator'){
+  if(payload && isLimited(payload.role,['administrator'])){
     const result=await model.seleceCollegeManagerAll()
     const collegeManagers=result.recordset
     ctx.body={
@@ -53,7 +54,6 @@ module.exports.getCollegeManagerLogin=async (ctx,next)=>{
   }
 }
 
-const {isLimited}=require('../../util/role')
 
 module.exports.postCollegeManager=async (ctx,next)=>{
   const payload=getJWTPayload(ctx.headers.authorization)
