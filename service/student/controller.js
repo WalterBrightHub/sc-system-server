@@ -1,5 +1,5 @@
 const model=require('./model')
-const {getJWTPayload}=require('../../lib/jwt')
+const {getJWTPayload,getToken}=require('../../lib/jwt')
 const md5=require('md5')
 module.exports.getStudent=async (ctx,next)=>{
   const result=await model.selectStudentAll()
@@ -44,6 +44,37 @@ module.exports.postStudent=async (ctx,next)=>{
           msg:'insert'
         }
       }
+    }
+  }
+}
+
+module.exports.getStudentLogin=async (ctx,next)=>{
+  const {number,password}=ctx.request.body
+  if(number&&password){
+    const result=await model.checkStudent(number,md5(password))
+    const login=result.recordset.length===1
+    if(login){
+      const {student_id}=result.recordset[0]
+      ctx.body={
+        code:0,
+        msg:'login success',
+        token:getToken({
+          role:'student',
+          student_id
+        })
+      }
+    }
+    else{
+      ctx.body={
+        code:3,
+        msg:'wrong number or password'
+      }
+    }
+  }
+  else{
+    ctx.body={
+      code:1,
+      msg:'lack of parameters'
     }
   }
 }

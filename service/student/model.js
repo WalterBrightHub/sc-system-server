@@ -14,3 +14,8 @@ module.exports.insertStudent=async (name,number,password,class_id)=>{
   return query_safe(query_sql,{name,number,password,class_id})
 }
 
+module.exports.checkStudent=async (number,password)=>{
+  const query_sql='select student_id from shensm21_Student where student_number=@number and student_password=@password'
+  return query_safe(query_sql,{number,password})
+}
+
